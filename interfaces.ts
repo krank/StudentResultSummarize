@@ -1,6 +1,6 @@
 interface Rubric {
-  rubric: string;
-  combinedResult: string;
+  name: string;
+  studentGrade: string;
   criteria: Criteria[];
   columnNumber: number;
 }
