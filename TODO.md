@@ -1,0 +1,5 @@
+- Generation of grading matrix
+- Customization/defaults
+- Generation of basic template (Menu button)
+- Help function
+- Pie in the sky: Ability to somehow transfer data to Schoolsoft

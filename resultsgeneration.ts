@@ -1,16 +1,81 @@
+function GetStudentResults_(studentName: string,
+  studentMeta: StudentMetaData,
+  rubricMeta: RubricMetaData,
+  sheet: GoogleAppsScript.Spreadsheet.Sheet): string[] {
 
-function GenerateResultsDataForStudent(studentName: string, studentMeta: StudentMetaData, rubricMeta: RubricMetaData, sheet: GoogleAppsScript.Spreadsheet.Sheet) {
+  /* ---------------------------------------------------------------------------
+      GET STUDENT NAMES FROM COLUMN
+  ----------------------------------------------------------------------------*/
+  let students = sheet?.getRange(
+    studentMeta.rowStart, studentMeta.columnNumber,
+    sheet.getMaxRows() - studentMeta.rowStart, 1)
+    .getValues();
+  if (students == undefined) throw new Error("No students found!");
+
+  /* ---------------------------------------------------------------------------
+      FIND ROW NUMBER OF NAMED STUDENT
+  ----------------------------------------------------------------------------*/
+  let studentRowNumber: number = students.findIndex((student) => student[0] == studentName);
+  if (studentRowNumber < 0) throw new Error("Student not found!");
+
+  /* ---------------------------------------------------------------------------
+      GET RESULTS OF NAMED STUDENT
+  ----------------------------------------------------------------------------*/
+  let studentResults = sheet?.getRange(
+    studentMeta.rowStart + studentRowNumber, rubricMeta.firstColumnNumber,
+    1, rubricMeta.rangeWidth
+  ).getValues();
+  if (studentResults == undefined) throw new Error("Failed to get student results");
+
+  /* ---------------------------------------------------------------------------
+      RETURN FIRST (ONLY) ROW
+  ----------------------------------------------------------------------------*/
+  return studentResults[0];
+}
+
+function GetRubricsForStudent_(resultsPage: string, firstRubricColumnNumber: number, studentColumnNumber: number, studentName: string) {
   
+  /* ---------------------------------------------------------------------------
+      READ NAMED SHEET FROM SPREADSHEET
+  ----------------------------------------------------------------------------*/
+  let sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(resultsPage);
+  if (sheet == null) throw new Error("Sheet not found!");
+
+  /* ---------------------------------------------------------------------------
+      COLLECT DATA & MAGIC NUMBERS
+  ----------------------------------------------------------------------------*/
+  const rubricMeta: RubricMetaData = {
+    "criteriaActiveRow": 1,
+    "criteriaGradeRow": 2,
+    "criteriaShortNameRow": 3,
+    "criteriaNameRow": 4,
+    "firstColumnNumber": firstRubricColumnNumber,
+    "rangeWidth": sheet.getMaxColumns() - firstRubricColumnNumber
+  };
+
+  const studentMeta: StudentMetaData = {
+    "rowStart": 6,
+    "columnNumber": studentColumnNumber
+  };
+
+  /* ---------------------------------------------------------------------------
+      GET ARRAY OF STUDENT'S RESULTS FROM SHEET
+  ----------------------------------------------------------------------------*/
+
   let studentResults: string[] = GetStudentResults_(studentName, studentMeta, rubricMeta, sheet);
 
-  // Get rubrics range
+  /* ---------------------------------------------------------------------------
+      GET RUBRIC BLOCK
+  ----------------------------------------------------------------------------*/
   let rubricBlock = sheet?.getRange(
     1, rubricMeta.firstColumnNumber, // rows, column offset
     5, rubricMeta.rangeWidth // Size
   ).getValues();
   if (rubricBlock == undefined) throw new Error("rubric range undefined");
 
-
+  /* ---------------------------------------------------------------------------
+      READ RUBRIC BLOCK INTO DATA STRUCTURE
+  ----------------------------------------------------------------------------*/
   let rubrics: Rubric[] = [];
 
   // Go through all the columns in the rubricBlock
@@ -50,33 +115,6 @@ function GenerateResultsDataForStudent(studentName: string, studentMeta: Student
       rubrics.push(rubric);
     }
   }
+
   return rubrics;
-}
-
-
-function GetStudentResults_(studentName: string,
-  studentMeta: StudentMetaData,
-  rubricMeta: RubricMetaData,
-  sheet: GoogleAppsScript.Spreadsheet.Sheet): string[] {
-
-  // Get range of students
-  let students = sheet?.getRange(
-    studentMeta.rowStart, studentMeta.columnNumber,
-    sheet.getMaxRows() - studentMeta.rowStart, 1)
-    .getValues();
-  if (students == undefined) throw new Error("No students found!");
-
-  // Find row of student
-  let studentRowNumber: number = students.findIndex((student) => student[0] == studentName);
-  if (studentRowNumber < 0) throw new Error("Student not found!");
-
-  // Get results for the student
-  let studentTmpResults = sheet?.getRange(
-    studentMeta.rowStart + studentRowNumber, rubricMeta.firstColumnNumber,
-    1, rubricMeta.rangeWidth
-  ).getValues();
-  if (studentTmpResults == undefined) throw new Error("Failed to get student results");
-
-  // Only use the first(only) row
-  return studentTmpResults[0];
 }

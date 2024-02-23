@@ -1,31 +1,19 @@
 import "google-apps-script"
 
-function SUMMARIZERESULTS(resultsPage: string, firstRubricColumnNumber: number, studentName: string, studentColumnNumber: number) {
+/**
+ * Generates a results overview for a given student
+ * 
+ * @param {string} resultsSheetName The name of the sheet containing all results
+ * @param firstRubricColumnNumber Which column the rubrics start
+ * @param studentName The name of the student
+ * @param studentColumnNumber The column where student names are found
+ * @returns A results overview; 5 columns wide
+ * @customfunction
+ */
+function SUMMARIZERESULTS(resultsSheetName: string, firstRubricColumnNumber: number, studentName: string, studentColumnNumber: number) {
 
   // Get the sheet (page)
-  let sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(resultsPage);
-  if (sheet == null) throw new Error("Sheet not found!");
-
-  // Collect data & magic numbers
-  const rubricMeta: RubricMetaData = {
-    "criteriaActiveRow": 1,
-    "criteriaGradeRow": 2,
-    "criteriaShortNameRow": 3,
-    "criteriaNameRow": 4,
-    "firstColumnNumber": firstRubricColumnNumber,
-    "rangeWidth": sheet.getMaxColumns() - firstRubricColumnNumber
-  };
-
-  const studentMeta: StudentMetaData = {
-    "rowStart": 6,
-    "columnNumber": studentColumnNumber
-  }
-
-  // Get student's results
-  let rubrics: Rubric[] = GenerateResultsDataForStudent(
-    studentName,
-    studentMeta, rubricMeta,
-    sheet);
+  let rubrics: Rubric[] = GetRubricsForStudent_(resultsSheetName, firstRubricColumnNumber, studentColumnNumber, studentName);
 
   Logger.log(rubrics);
   // Logger.log(studentResults);
@@ -49,7 +37,7 @@ function FormatRubricResult(result: Rubric) {
     const criteria = result.criteria[i];
 
     let line: string[] = [];
-    
+
     // If we're the first, add the rubric name. Otherwise add empty string.
     line.push(i == 0 ? result.name : "");
 
@@ -65,4 +53,10 @@ function FormatRubricResult(result: Rubric) {
   }
 
   return output;
+}
+
+function SHOWRESULTSASMATRIX(resultsPage: string, firstRubricColumnNumber: number, studentName: string, studentColumnNumber: number, grades: string[]) {
+  let rubrics: Rubric[] = GetRubricsForStudent_(resultsPage, firstRubricColumnNumber, studentColumnNumber, studentName);
+
+
 }
