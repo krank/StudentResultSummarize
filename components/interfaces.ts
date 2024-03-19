@@ -1,3 +1,9 @@
+interface Student {
+  name: string;
+  index: number;
+  rubrics: Rubric[];
+}
+
 interface Rubric {
   name: string;
   studentGrade: string;
@@ -21,9 +27,4 @@ interface RubricMetaData {
   criteriaNameRow: number,
   firstColumnNumber: number
   rangeWidth: number
-}
-
-interface StudentMetaData {
-  rowStart: number,
-  columnNumber: number
 }

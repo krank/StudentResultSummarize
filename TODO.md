@@ -1,5 +1,15 @@
-- Generation of grading matrix
-- Customization/defaults
-- Generation of basic template (Menu button)
-- Help function
-- Pie in the sky: Ability to somehow transfer data to Schoolsoft
+- [x] Generation of grading matrix
+- [ ] Menu: Student results entry form
+  - Student name; arrows
+  - Rubrics & rubric grades
+  - Criteria as checkboxes
+- [ ] Menu: Generation of basic template (Menu button)
+  - [ ] Single student results overview page
+  - [ ] All student results page
+    - [ ] Manually add rubrics & criteria
+    - [ ] After-the-fact editing
+  - [ ] Config things separated to its own page (w/ named ranges)
+- [ ] Menu: Export/import of rubrics/student results
+- [ ] Menu: Help function
+- [ ] Menu: Get student roster from Classroom
+- [ ] Pie in the sky: Ability to somehow transfer data to Schoolsoft

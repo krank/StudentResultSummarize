@@ -1,4 +1,4 @@
-function FormatRubricResult_(result: Rubric) {
+function FormatRubricResult(result: Rubric) {
 
   let output: string[][] = [];
 
@@ -29,7 +29,7 @@ function FormatRubricResult_(result: Rubric) {
   return output;
 }
 
-function FormatRubricAsMatrixLine_(result: Rubric, grades: string[]) {
+function FormatRubricAsMatrixLine(result: Rubric, grades: string[]) {
 
   let line: string[] = [];
 

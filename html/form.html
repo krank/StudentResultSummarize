@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <base target="_top">
+    <title>Student results form</title>
+
+    <script defer>
+      function OnSuccess(studentData)
+      {
+        alert(studentData);
+      }
+
+      let student = google.script.run.withSuccessHandler(OnSuccess)
+      .GetStudentResultsJson();   
+    </script>
+  </head>
+  <body>
+    Student name: <span class="studentname"></span>
+  </body>
+</html>
