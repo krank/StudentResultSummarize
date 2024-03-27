@@ -10,8 +10,7 @@ import "google-apps-script"
  * @customfunction
  */
 function SUMMARIZERESULTS(resultsSheetName: string, firstRubricColumnNumber: number, studentName: string) {
-
-  let student = GetStudentResultsByInputs(resultsSheetName, firstRubricColumnNumber, studentName);
+  let student = getStudentResultsByInputs(resultsSheetName, firstRubricColumnNumber, studentName);
 
   let output: string[][] = [];
 
@@ -35,7 +34,7 @@ function SUMMARIZERESULTS(resultsSheetName: string, firstRubricColumnNumber: num
  */
 function SHOWRESULTSASMATRIX(resultsSheetName: string, firstRubricColumnNumber: number, studentName: string, grades: string[]) {
 
-  let student = GetStudentResultsByInputs(resultsSheetName, firstRubricColumnNumber, studentName);
+  let student = getStudentResultsByInputs(resultsSheetName, firstRubricColumnNumber, studentName);
   
   let output: string[][] = [];
   /* ---------------------------------------------------------------------------

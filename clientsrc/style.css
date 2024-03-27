@@ -1,0 +1,46 @@
+p {
+  color: green;
+}
+
+header {
+  position: sticky;
+  top: 0;
+  background-color: #FFFFFF;
+  padding-bottom: .5em;
+  display: flex;
+  align-items: center;
+  z-index: 1000;
+}
+
+header h1 {
+  margin-block: 0;
+  flex-grow: 1;
+}
+
+header button {
+  min-width: 0 !important;
+  margin-left: 6px !important;
+}
+
+header button span {
+  font-size: 14pt !important;
+  vertical-align: middle;
+}
+
+section {
+  display: flex;
+}
+
+section h2 {
+  background-color: #EEE;
+  padding: .3em;
+  font-size: 13px;
+  width: 15em;
+  flex-shrink: 0;
+  margin-block: 0;
+}
+
+td.grade {
+  width: 3em;
+  text-align: center;
+}

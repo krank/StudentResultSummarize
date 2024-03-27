@@ -1,7 +1,7 @@
 function getStudentResults(resultsSheet: GoogleAppsScript.Spreadsheet.Sheet, studentRowNumber: number, studentName: string, rubricMeta: RubricMetaData): Student {
 
   // Get the array for the student [COST: 2]
-  let studentResults: string[] = GetStudentResultsArray(studentRowNumber, rubricMeta, resultsSheet);
+  let studentResults: string[] = getStudentResultsArray(studentRowNumber + resultsSheet.getFrozenRows() + 1, rubricMeta, resultsSheet);
   // Get the rubric block [COST: 2]
   let rubricBlock: string[][] = getRubricBlock(rubricMeta, resultsSheet);
 
@@ -49,28 +49,36 @@ function getStudentResults(resultsSheet: GoogleAppsScript.Spreadsheet.Sheet, stu
 
   let student: Student = {
     "name": studentName,
-    "index": 1,
+    "index": studentRowNumber,
+    "nextIndex": studentRowNumber + 1,
     "rubrics": rubrics
   }
 
   return student;
 }
 
-function GetStudentResultsByInputs(resultsSheetName: string, firstRubricColumnNumber: number, studentName?: string, studentRowNumber?: number): Student {
+function getStudentResultsByInputs(resultsSheetName: string, firstRubricColumnNumber: number, studentName?: string, studentRowNumber?: number): Student {
+  
   // Make sure the specified results sheet exists, get it [COST: 1]
   let resultsSheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(resultsSheetName);
   if (resultsSheet == null) throw new Error("Sheet not found!");
 
-  if (studentName == undefined && studentRowNumber == undefined) throw new Error("Need to specify either student name or row number");
-  else if (studentName == undefined && studentRowNumber != undefined) studentName = findStudentNameByIndex(studentRowNumber); // COST: 2
-  else if (studentName != undefined && studentRowNumber == undefined) studentRowNumber = findStudentIndexByName(studentName, resultsSheet); // COST: 2
+  if (studentName == undefined && studentRowNumber == undefined)
+    throw new Error("Need to specify either student name or row number");
+  
+  else if (studentName == undefined && studentRowNumber != undefined)
+    studentName = findStudentNameByIndex(studentRowNumber, resultsSheet); // COST: 2
+    
+  else if (studentName != undefined && studentRowNumber == undefined)
+    studentRowNumber = findStudentIndexByName(studentName, resultsSheet); // COST: 2
+    
   else throw new Error("Something has gone seriously wrong. Send help!");
 
   // Prepare the rubric metadata [COST: 1]
   let rubricMeta = getRubricMetadata(firstRubricColumnNumber, resultsSheet);
 
   // Get the student's results [COST: 4]
-  let student = getStudentResults(resultsSheet, studentRowNumber + resultsSheet.getFrozenRows() + 1, studentName, rubricMeta);
+  let student = getStudentResults(resultsSheet, studentRowNumber, studentName, rubricMeta);
 
   return student; // Total cost: 8(6)
   // Getting the sheet: 1
@@ -80,7 +88,13 @@ function GetStudentResultsByInputs(resultsSheetName: string, firstRubricColumnNu
   // Get the student's row of results: 2
 }
 
-function GetStudentResultsArray(studentRowNumber: number,
+function getStudentResultsJson(index: number) {
+  let student: Student = getStudentResultsByInputs("Bedömning", 12, undefined, index);
+
+  return JSON.stringify(student);
+}
+
+function getStudentResultsArray(studentRowNumber: number,
   rubricMeta: RubricMetaData,
   sheet: GoogleAppsScript.Spreadsheet.Sheet): string[] {
 
@@ -95,3 +109,4 @@ function GetStudentResultsArray(studentRowNumber: number,
   // Return first (only) row
   return studentResults[0];
 }
+

@@ -1,3 +1,5 @@
+/// <reference path="./components/interfaces.ts" />
+
 function FormatRubricResult(result: Rubric) {
 
   let output: string[][] = [];

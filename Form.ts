@@ -5,14 +5,13 @@ function onOpen() {
     .addToUi();
 }
 
-function GradeUsingForm() {
-  let widget = HtmlService.createHtmlOutputFromFile("form.html");
-
-  SpreadsheetApp.getUi().showModalDialog(widget, "Grading form");
+function include(filename: string) {
+  return HtmlService.createHtmlOutputFromFile(filename)
+    .getContent();
 }
 
-function GetStudentResultsJson(index: number) {
-  let student: Student = GetStudentResultsByInputs("Bedömning", 12, undefined, index);
+function GradeUsingForm() {
+  let widget = HtmlService.createHtmlOutputFromFile("html/index").setHeight(2000);
 
-  return JSON.stringify(student);
+  SpreadsheetApp.getUi().showModalDialog(widget, "Grading form");
 }

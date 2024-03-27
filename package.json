@@ -1,5 +1,15 @@
 {
-  "dependencies": {
-    "@types/google-apps-script": "^1.0.82"
+  "name": "studentresultsummarize",
+  "version": "1.0.0",
+  "source": "clientsrc/index.html",
+  "scripts": {
+    "start": "parcel",
+    "build": "parcel build --dist-dir html"
+  },
+  "devDependencies": {
+    "@types/google-apps-script": "^1.0.82",
+    "@types/node": "^20.11.30",
+    "@types/parcel-env": "^0.0.6",
+    "parcel": "^2.12.0"
   }
 }

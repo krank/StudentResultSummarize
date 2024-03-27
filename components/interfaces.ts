@@ -1,6 +1,7 @@
 interface Student {
   name: string;
   index: number;
+  nextIndex: number;
   rubrics: Rubric[];
 }
 
