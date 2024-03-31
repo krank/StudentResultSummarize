@@ -1,8 +1,14 @@
 - [x] Generation of grading matrix
 - [ ] Menu: Student results entry form
-  - Student name; arrows
-  - Rubrics & rubric grades
-  - Criteria as checkboxes
+  - [x] Faking student data for testing
+  - [ ] Getting student data, reliably, both next and prev
+  - [ ] Grade (F/E/C/A)
+  - [ ] Nice, or at least clear, loading screen
+  - [ ] Detecting changes
+  - [ ] Saving data
+  - [ ] Reverting
+  - [ ] Keyboard navigation
+  - [ ] Clear CSS
 - [ ] Menu: Generation of basic template (Menu button)
   - [ ] Single student results overview page
   - [ ] All student results page

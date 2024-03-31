@@ -1,4 +1,10 @@
 /// <reference path="../components/interfaces.ts" />
+/// <reference path="./studentfaker.ts" />
+/// <reference path="./randomword.ts" />
+
+declare var google: any;
+
+import { GenerateStudent } from "./studentfaker";
 
 var studentData: Student;
 var nextButton: HTMLButtonElement;
@@ -17,7 +23,7 @@ var getStudent = (index: number) => {
 
 if (module.hot) {
   getStudent = (index: number) => {
-    alert(index);
+    OnSuccess(JSON.stringify(GenerateStudent(index)));
   }
 }
 
@@ -42,7 +48,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // PREV BUTTON
   prevButton.addEventListener("click", (event) => {
-    getStudent(studentData.nextIndex - 1);
+    getStudent(studentData.index - 1);
 
     event.preventDefault();
   });
